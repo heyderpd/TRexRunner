@@ -116,6 +116,9 @@ HY_DINO.prototype.getQuery = function(){
 HY_DINO.prototype.setGameMode = function(){
   switch(this.Mode) {
     case 'velociraptor':
+      this.Out.Game.horizon.config['CLOUD_FREQUENCY'] = 1;
+      this.Out.Game.horizon.config['BG_CLOUD_SPEED'] = 1;
+      this.Out.Game.horizon.config['MAX_CLOUDS'] = 10;
       this.Out.Game.setSpeed( this.Out.Game.config['MAX_SPEED'] = this.Out.Game.config['SPEED'] = 100);
       var Func = this.RUN.bind(this);
       break;
