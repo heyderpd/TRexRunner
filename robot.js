@@ -173,7 +173,7 @@ HY_DINO.prototype.start = function(){
 var HD = new HY_DINO();
 
 function ChangeGame(Mode = ''){
-  window.location.href ='./index.html?'+Mode;
+  window.location.href ='./trex.html?'+Mode;
 };
 
 document.onreadystatechange = function() {
