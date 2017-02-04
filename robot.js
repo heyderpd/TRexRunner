@@ -121,6 +121,7 @@ HY_DINO.prototype.setGameMode = function(){
       this.Out.Game.setSpeed( this.Out.Game.config['MAX_SPEED'] = this.Out.Game.config['SPEED'] = 100);
       var Func = this.RUN.bind(this);
       break;
+
     case 'automatosaurus':
       this.Out.Game.config['CLOUD_FREQUENCY'] = 0.7;
       this.Out.Game.config['GRAVITY'] = 0.7;
@@ -131,19 +132,23 @@ HY_DINO.prototype.setGameMode = function(){
       this.Out.Game.config['MIN_JUMP_HEIGHT'] = 40;
       this.Out.Game.config['CLEAR_TIME'] = 1000;
       this.Out.Game.config['ACCELERATION'] = 0.0035;
-      this.Out.Game.config['MAX_SPEED'] = this.Out.Canvas.width <= 600 ? 18 : 12;
+      this.Out.Game.config['MAX_SPEED'] = window.innerWidth > 555 ? 18 : 12;
       var Func = this.AUTO.bind(this);
   }
-  this.IS_AUTOMATO = true;
 
-  if(this.Out.Game.paused)
-    this.Out.Game.play()
-  this.Out.Game.startGame();
-  this.Out.Game.playIntro();
-  this.Out.Game.play();
+  this.IS_AUTOMATO = true;
+  this.play();
 
   return Func;
 };
+
+HY_DINO.prototype.play = function(){
+  if(this.Out.Game.paused)
+    this.Out.Game.play();
+  this.Out.Game.startGame();
+  this.Out.Game.playIntro();
+  this.Out.Game.play();
+}
 
 HY_DINO.prototype.setJumpLength = function(){
   if(this.Out.Canvas != undefined){
@@ -153,10 +158,10 @@ HY_DINO.prototype.setJumpLength = function(){
         3000);
     }
     var Speed = 1.05 -Math.pow(1.04 -(this.Out.Game.currentSpeed /20), 2);
-    var cof = this.Out.Canvas.width <= 600 ? 0.38 : 0.20;
+    var cof = window.innerWidth > 555 ? 0.38 : 0.20;
     this.Pos.Jump = parseInt(this.Out.Canvas.width *cof  *Speed);
     this.Pos.Duck = parseInt(this.Out.Canvas.width *cof *0.34 *Speed);
-    if (this.Out.Canvas.width <= 600) {
+    if (window.innerWidth > 555) {
       this.Pos.Jump = this.Pos.Jump < 150 ? 150 : this.Pos.Jump;
       this.Pos.Duck = this.Pos.Duck <  60 ?  60 : this.Pos.Duck;
     } else {
@@ -177,7 +182,10 @@ HY_DINO.prototype.start = function(){
   if(this.Mode != '')
     var Func = this.setGameMode().bind(this);
   this.Runner = this.createRunning(Func); //setInterval( this.createRunning(Func).bind(this), 1);
+  
   console.log('Run lola!');
+  if (!this.Mode)
+    this.play();
 };
 
 var HD = new HY_DINO();

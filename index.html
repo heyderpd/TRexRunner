@@ -1419,10 +1419,11 @@ var FPS = 60;
 var IS_HIDPI = false; /* HY_DINO */
 
 /** @const */
-var IS_IOS = false; /* HY_DINO */
+var IS_IOS = window.navigator.userAgent.indexOf('CriOS') > -1 ||
+    window.navigator.userAgent == 'UIWebViewForStaticFileContent';
 
 /** @const */
-var IS_MOBILE = false; /* HY_DINO */
+var IS_MOBILE = window.navigator.userAgent.indexOf('Mobi') > -1 || IS_IOS;
 
 /** @const */
 var IS_TOUCH_ENABLED = 'ontouchstart' in window;
