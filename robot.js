@@ -57,18 +57,17 @@ HY_DINO.prototype.RUN = function(Item){
 
 HY_DINO.prototype.AUTO = function(Item){
   if(Item.processed === undefined){
-    if(73 < Item.yPos && Item.yPos <= 75) {
+    if(73 < Item.yPos && Item.yPos <= 75) { // low
       if(Item.xPos <= this.Pos.Duck)
         if(this.TryDuck())
           Item.processed = true;
     } else {
-      if(Item.yPos > 75) //75 pitero hit!
-        if(Item.xPos <= this.Pos.Jump)
-          if(this.TryJump())
-            Item.processed = true;
+      var dif = Item.width <= 25 ? 0 : 10;
+      if(Item.yPos > 75 && Item.xPos +dif <= this.Pos.Jump) // high (pitero hit in y=75px)
+        if(this.TryJump())
+          Item.processed = true;
     }
-    if(Item.processed === true)
-      return true;
+    return Item.processed === true;
   }
   return false;
 };
@@ -132,7 +131,7 @@ HY_DINO.prototype.setGameMode = function(){
       this.Out.Game.config['MIN_JUMP_HEIGHT'] = 40;
       this.Out.Game.config['CLEAR_TIME'] = 1000;
       this.Out.Game.config['ACCELERATION'] = 0.0035;
-      this.Out.Game.config['MAX_SPEED'] = 18;
+      this.Out.Game.config['MAX_SPEED'] = this.Out.Canvas.width <= 600 ? 18 : 12;
       var Func = this.AUTO.bind(this);
   }
   this.IS_AUTOMATO = true;
@@ -148,13 +147,24 @@ HY_DINO.prototype.setGameMode = function(){
 
 HY_DINO.prototype.setJumpLength = function(){
   if(this.Out.Canvas != undefined){
+    if (this.Mode === 'automatosaurus' && this.Out.Game.crashed) {
+      setTimeout(
+        ()=>this.Out.Game.restart(),
+        3000);
+    }
     var Speed = 1.05 -Math.pow(1.04 -(this.Out.Game.currentSpeed /20), 2);
-    this.Pos.Jump = parseInt(this.Out.Canvas.width *0.38  *Speed);
-    this.Pos.Duck = parseInt(this.Out.Canvas.width *0.13 *Speed);
-    this.Pos.Jump = this.Pos.Jump < 150 ? 150 : this.Pos.Jump;
-    this.Pos.Duck = this.Pos.Duck <  60 ?  60 : this.Pos.Duck;
+    var cof = this.Out.Canvas.width <= 600 ? 0.38 : 0.20;
+    this.Pos.Jump = parseInt(this.Out.Canvas.width *cof  *Speed);
+    this.Pos.Duck = parseInt(this.Out.Canvas.width *cof *0.34 *Speed);
+    if (this.Out.Canvas.width <= 600) {
+      this.Pos.Jump = this.Pos.Jump < 150 ? 150 : this.Pos.Jump;
+      this.Pos.Duck = this.Pos.Duck <  60 ?  60 : this.Pos.Duck;
+    } else {
+      this.Pos.Jump = this.Pos.Jump < 100 ? 100 : this.Pos.Jump;
+      this.Pos.Duck = this.Pos.Duck <  60 ?  60 : this.Pos.Duck;  
+    }
     this.Runner();
-    //console.log(this.Out.Game.currentSpeed, Speed, this.Pos);
+    // console.log(this.Out.Canvas.width, this.Out.Game.currentSpeed, Speed, this.Pos);
   }
 };
 
