@@ -36,18 +36,18 @@ HY_DINO.prototype.createRunning = function(Func){
   return function(){
     if (this.Mode == 'velociraptor' && (!this.Out.tRex.ducking || this.Out.tRex.status != 'DUCKING'))
       this.Out.tRex.setDuck(true);
-    if(this.Out.Game.paused)
+    if (this.Out.Game.paused)
       this.Out.Game.play();
     var Obstacles = this.Out.Game.horizon.obstacles;
     for(var i=0; i<Obstacles.length; i++){
-      if(Func(Obstacles[i]))
+      if (Func(Obstacles[i]))
         return;
     }
   }
 };
 
 HY_DINO.prototype.RUN = function(Item){
-  if(Item.processed == undefined){
+  if (Item.processed == undefined){
     Item.processed = true;
     Item.collisionBoxes = [];
     return true;
@@ -56,15 +56,19 @@ HY_DINO.prototype.RUN = function(Item){
 };
 
 HY_DINO.prototype.AUTO = function(Item){
-  if(Item.processed === undefined){
-    if(73 < Item.yPos && Item.yPos <= 75) { // low
-      if(Item.xPos <= this.Pos.Duck)
-        if(this.TryDuck())
+  if (Item.processed === undefined){
+    if (73 < Item.yPos && Item.yPos <= 75) { // high hit
+      if (Item.xPos <= this.Pos.Duck)
+        if (this.TryDuck())
           Item.processed = true;
-    } else {
+    } else if (Item.yPos > 75) {
+      /*// console.log((this.tRexWidth +Item.width +this.Pos.Jump) /2, Item.xPos, (this.tRexWidth +Item.width +this.Pos.Jump) /2 >= Item.xPos)
+      if ((this.tRexWidth +Item.width +this.Pos.Jump) /2 >= Item.xPos)
+        if (this.TryJump())
+            Item.processed = true;*/
       var dif = Item.width <= 25 ? 0 : 10;
-      if(Item.yPos > 75 && Item.xPos +dif <= this.Pos.Jump) // high (pitero hit in y=75px)
-        if(this.TryJump())
+      if (Item.xPos +dif <= this.Pos.Jump) // low hit (pitero hit in y=75px)
+        if (this.TryJump())
           Item.processed = true;
     }
     return Item.processed === true;
@@ -73,7 +77,7 @@ HY_DINO.prototype.AUTO = function(Item){
 };
 
 HY_DINO.prototype.pressKey = function(keyCode, Time = 250){
-  if(this.Time.CallBack !== null){
+  if (this.Time.CallBack !== null){
     clearTimeout(this.Time.Id);
     this.Time.CallBack();
   }
@@ -92,7 +96,7 @@ HY_DINO.prototype.upKey = function(EventKey, Time = 250){
 };
 
 HY_DINO.prototype.TryJump = function(){
-  if(!this.Out.tRex.jumping){
+  if (!this.Out.tRex.jumping){
     this.pressKey('38', 100);
     return true;
   }
@@ -100,7 +104,7 @@ HY_DINO.prototype.TryJump = function(){
 };
 
 HY_DINO.prototype.TryDuck = function(){
-  if(/*!this.Out.tRex.jumping &&*/ !this.Out.tRex.ducking){
+  if (/*!this.Out.tRex.jumping &&*/ !this.Out.tRex.ducking){
     this.pressKey('40');
     return true;
   }
@@ -137,13 +141,14 @@ HY_DINO.prototype.setGameMode = function(){
   }
 
   this.IS_AUTOMATO = true;
-  this.play();
+  this.play();  
+  this.tRexWidth = this.Out.Game.tRex.config.WIDTH;
 
   return Func;
 };
 
 HY_DINO.prototype.play = function(){
-  if(this.Out.Game.paused)
+  if (this.Out.Game.paused)
     this.Out.Game.play();
   this.Out.Game.startGame();
   this.Out.Game.playIntro();
@@ -151,7 +156,7 @@ HY_DINO.prototype.play = function(){
 }
 
 HY_DINO.prototype.setJumpLength = function(){
-  if(this.Out.Canvas != undefined){
+  if (this.Out.Canvas != undefined){
     if (this.Mode === 'automatosaurus' && this.Out.Game.crashed) {
       setTimeout(
         ()=>this.Out.Game.restart(),
@@ -179,7 +184,7 @@ HY_DINO.prototype.start = function(){
   this.Out.tRex = this.Out.Game.tRex;
   this.setJumpLength();
   var Func = function(){};
-  if(this.Mode != '')
+  if (this.Mode != '')
     var Func = this.setGameMode().bind(this);
   this.Runner = this.createRunning(Func); //setInterval( this.createRunning(Func).bind(this), 1);
   
@@ -196,6 +201,7 @@ function ChangeGame(Mode = ''){
 
 document.onreadystatechange = function() {
   if (document.readyState === 'complete') {
+    document.getElementsByClassName('btn btn-github')[0].innerHTML = window.innerWidth;
     HD.start();
   }
 };
