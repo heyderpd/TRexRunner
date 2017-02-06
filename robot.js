@@ -136,7 +136,7 @@ HY_DINO.prototype.setGameMode = function(){
       this.Out.Game.config['MIN_JUMP_HEIGHT'] = 40;
       this.Out.Game.config['CLEAR_TIME'] = 1000;
       this.Out.Game.config['ACCELERATION'] = 0.0035;
-      this.Out.Game.config['MAX_SPEED'] = window.innerWidth > 555 ? 18 : 12;
+      this.Out.Game.config['MAX_SPEED'] = window.innerWidth > 555 ? 18 : 10;
       var Func = this.AUTO.bind(this);
   }
 
@@ -162,19 +162,12 @@ HY_DINO.prototype.setJumpLength = function(){
         ()=>this.Out.Game.restart(),
         3000);
     }
-    var Speed = 1.05 -Math.pow(1.04 -(this.Out.Game.currentSpeed /20), 2);
-    var cof = window.innerWidth > 555 ? 0.38 : 0.20;
-    this.Pos.Jump = parseInt(this.Out.Canvas.width *cof  *Speed);
-    this.Pos.Duck = parseInt(this.Out.Canvas.width *cof *0.34 *Speed);
-    if (window.innerWidth > 555) {
-      this.Pos.Jump = this.Pos.Jump < 150 ? 150 : this.Pos.Jump;
-      this.Pos.Duck = this.Pos.Duck <  60 ?  60 : this.Pos.Duck;
-    } else {
-      this.Pos.Jump = this.Pos.Jump < 100 ? 100 : this.Pos.Jump;
-      this.Pos.Duck = this.Pos.Duck <  60 ?  60 : this.Pos.Duck;  
-    }
+    var Speed = 1 +Math.pow(this.Out.Game.currentSpeed /20, 2);
+    var cof = window.innerWidth > 555 ? 1 : 0.75;
+    this.Pos.Jump = parseInt(110 *Speed *cof);
+    this.Pos.Duck = parseInt(60  *Speed *cof);
     this.Runner();
-    // console.log(this.Out.Canvas.width, this.Out.Game.currentSpeed, Speed, this.Pos);
+    // console.log(this.Out.Game.currentSpeed, Speed, cof, this.Pos.Jump);
   }
 };
 
@@ -201,7 +194,8 @@ function ChangeGame(Mode = ''){
 
 document.onreadystatechange = function() {
   if (document.readyState === 'complete') {
-    document.getElementsByClassName('btn btn-github')[0].innerHTML = window.innerWidth;
+    var errorCode = document.getElementsByClassName('error-code')[0]
+    errorCode.innerHTML = errorCode.innerHTML+'_'+window.innerWidth;
     HD.start();
   }
 };
