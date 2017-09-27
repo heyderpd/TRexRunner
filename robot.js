@@ -193,8 +193,8 @@
   }
 
   var load = () => setTimeout(() => {
-    var errorCode = document.getElementsByClassName('error-code')[0]
-    errorCode.innerHTML = errorCode.innerHTML+'_'+window.innerWidth;
+    // var errorCode = document.getElementsByClassName('error-code')[0]
+    // errorCode.innerHTML = errorCode.innerHTML+'_'+window.innerWidth;
     init();
   });
 
