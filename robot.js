@@ -189,7 +189,7 @@
     };
 
     HD = new HY_DINO();
-    setTimeout(() => HD.start(), 500)
+    setTimeout(() => HD.start(), 1000)
   }
 
   var load = () => setTimeout(() => {
@@ -207,4 +207,4 @@ function ChangeGame(Mode = ''){
   window.location.href ='./trex.html?'+Mode;
 };
 
-var HD;
+var HD, Runner;
