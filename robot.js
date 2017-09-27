@@ -188,23 +188,23 @@
         this.play();
     };
 
-    var HD = new HY_DINO();
-    HD.start();
+    HD = new HY_DINO();
+    setTimeout(() => HD.start(), 500)
   }
 
   var load = () => setTimeout(() => {
     var errorCode = document.getElementsByClassName('error-code')[0]
     errorCode.innerHTML = errorCode.innerHTML+'_'+window.innerWidth;
     init();
-  }, 1500);
+  });
 
-  document.onreadystatechange = function() {
-    if (document.readyState === 'complete') {
-      load();
-    }
-  };
+  document.readyState !== 'complete'
+    ? document.addEventListener('DOMContentLoaded', load)
+    : load();
 })()
 
 function ChangeGame(Mode = ''){
   window.location.href ='./trex.html?'+Mode;
 };
+
+var HD;
