@@ -995,11 +995,30 @@ html[subframe] body {
   }
 }
 
-@media (max-width: 360px) { /* HY_DINO */
+/* HY_DINO */
+@media (max-width: 400px) {
   .offline .runner-container {
-    margin-top: -25px !important;
+    margin-top: 330px;
   }
 }
+@media (max-width: 450px) {
+  #downloads {
+    flex-wrap: wrap;
+  }
+  h1 {
+    margin: 0;
+  }
+}
+#downloads {
+  display: flex;
+}
+#downloads button, #downloads a {
+  width: 100%;
+}
+.container {
+  margin: 0;
+}
+/* HY_DINO */
 
 @media (max-height: 350px) {
   h1 {
