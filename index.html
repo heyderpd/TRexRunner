@@ -995,29 +995,6 @@ html[subframe] body {
   }
 }
 
-/* HY_DINO */
-@media (max-width: 450px) {
-  .offline .runner-container {
-    margin-top: 220px;
-  }
-  #downloads {
-    flex-wrap: wrap;
-  }
-  header h1 {
-    font-size: 25px;
-  }
-}
-#downloads {
-  display: flex;
-}
-#downloads button, #downloads a {
-  width: 100%;
-}
-.container {
-  margin-bottom: 0;
-}
-/* HY_DINO */
-
 @media (max-height: 350px) {
   h1 {
     margin: 0 0 15px;
@@ -1088,6 +1065,44 @@ html[subframe] body {
     width: auto;
   }
 }
+
+/* HY_DINO */
+header {
+  padding: 20px 0 0 0;
+}
+#main-content {
+  margin-top: 80px;
+}
+.runner-container, .runner-canvas, #main-frame-error, #main_content {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+@media (max-width: 600px) {
+  #downloads {
+    flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 25px;
+  }
+  div.runner-container.runner-container {
+    top: 132px;
+  }
+}
+@media (max-width: 422px) {
+  div.runner-container.runner-container {
+    top: -191px;
+  }
+}
+#downloads {
+  display: flex;
+}
+#downloads button, #downloads a {
+  width: 100%;
+}
+/* HY_DINO */
+
 </style>
 <script>// Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
@@ -2044,7 +2059,7 @@ Runner.prototype = {
    */
   onKeyUp: function(e) {
     /* HY_DINO */
-    if(HD.IS_AUTOMATO && e.target != null){   
+    if(HD.IS_AUTOMATO && e.target != null){
       e.preventDefault();
       return;
     }
@@ -4056,7 +4071,7 @@ Horizon.prototype = {
         <h2></h2>
         <section id="downloads">
           <button class="btn btn-github" onclick="ChangeGame('automatosaurus')">Automatosaurus</button>
-          <button class="btn btn-github" onclick="ChangeGame('velociraptor')">Velociraptor</button>  
+          <button class="btn btn-github" onclick="ChangeGame('velociraptor')">Velociraptor</button>
           <button class="btn btn-github" onclick="ChangeGame()">Normal</button>
           <a href="../index.html"><button class="btn btn-github">Main page</button></a>
         </section>
@@ -4085,7 +4100,7 @@ Horizon.prototype = {
     </div>
     <div id="buttons" class="nav-wrapper suggested-right" jstcache="0">
       <div id="control-buttons" hidden="" jstcache="0">
-        
+
         <button id="reload-button" class="blue-button text-button" onclick="trackClick(this.trackingId);
                      reloadButtonClick(this.url);" jsselect="reloadButton" jsvalues=".url:reloadUrl; .trackingId:reloadTrackingId" jscontent="msg" jstcache="11" style="display: none;"></button><button id="show-saved-copy-button" class="blue-button text-button" onclick="showSavedCopyButtonClick()" jsselect="showSavedCopyButton" jscontent="msg" jsvalues="title:title; .primary:primary" jstcache="12" style="display: none;">
         </button>
@@ -4502,5 +4517,5 @@ document.body.classList.add('offline');
 new Runner('.interstitial-wrapper');
 </script>
 </section>
-</div>    
+</div>
 </body>
