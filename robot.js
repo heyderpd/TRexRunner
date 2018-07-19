@@ -204,6 +204,11 @@
 })()
 
 function ChangeGame(Mode = ''){
+  try {
+    window.aquidauana.clear();
+    if (Mode === '')
+      window.aquidauana();
+  } catch (e) {}
   window.location.href ='./trex.html?'+Mode;
 };
 
