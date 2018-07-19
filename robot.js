@@ -174,6 +174,12 @@
     };
 
     HY_DINO.prototype.start = function(){
+      try {
+        window.aquidauana.clear();
+        if (this.Mode === '')
+          window.aquidauana('/guitarra.mp3', ['keydown']);
+      } catch (e) {}
+
       this.Out.Canvas = document.getElementsByClassName('runner-canvas')[0];
       this.Out.Game = Runner.call();
       this.Out.tRex = this.Out.Game.tRex;
@@ -204,11 +210,6 @@
 })()
 
 function ChangeGame(Mode = ''){
-  try {
-    window.aquidauana.clear();
-    if (Mode === '')
-      window.aquidauana('/guitarra.mp3', ['keydown']);
-  } catch (e) {}
   window.location.href ='./trex.html?'+Mode;
 };
 
