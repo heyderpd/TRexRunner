@@ -207,7 +207,7 @@ function ChangeGame(Mode = ''){
   try {
     window.aquidauana.clear();
     if (Mode === '')
-      window.aquidauana();
+      window.aquidauana('/guitarra.mp3', ['keydown']);
   } catch (e) {}
   window.location.href ='./trex.html?'+Mode;
 };
