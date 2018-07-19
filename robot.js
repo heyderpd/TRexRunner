@@ -174,11 +174,15 @@
     };
 
     HY_DINO.prototype.start = function(){
-      try {
-        window.aquidauana.clear();
-        if (this.Mode === '')
-          window.aquidauana('/guitarra.mp3', ['keydown']);
-      } catch (e) {}
+      setTimeout(
+        () => {
+          try {
+            window.aquidauana.clear();
+            if (this.Mode === '')
+              window.aquidauana('/guitarra.mp3', ['keydown']);
+          } catch (e) {}
+        }
+      , 5000)
 
       this.Out.Canvas = document.getElementsByClassName('runner-canvas')[0];
       this.Out.Game = Runner.call();
