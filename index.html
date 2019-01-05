@@ -2059,12 +2059,9 @@ Runner.prototype = {
    */
   onKeyUp: function(e) {
     /* HY_DINO */
-    if(HD.IS_AUTOMATO){
-      aquidauana && aquidauana.touch()
-      if(e.target != null){
-        e.preventDefault();
-        return;
-      }
+    if(HD.IS_AUTOMATO && e.target != null){
+      e.preventDefault();
+      return;
     }
 
     var keyCode = String(e.keyCode);
