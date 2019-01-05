@@ -180,11 +180,13 @@
         () => {
           try {
             window.aquidauana.clear();
-            if (this.Mode === 'automatosaurus')
+            if (this.Mode === 'automatosaurus') {
               window.aquidauana('/guitarra.mp3', []);
+              console.log('sing aquidauana')
+            }
           } catch (e) {}
         }
-      , 5000)
+      , 3000)
 
       this.Out.Canvas = document.getElementsByClassName('runner-canvas')[0];
       this.Out.Game = Runner.call();
