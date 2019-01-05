@@ -179,7 +179,7 @@
           try {
             window.aquidauana.clear();
             if (this.Mode === '')
-              window.aquidauana('/guitarra.mp3', ['keydown']);
+              window.aquidauana('/guitarra.mp3', []);
           } catch (e) {}
         }
       , 5000)
@@ -206,7 +206,6 @@
     // var errorCode = document.getElementsByClassName('error-code')[0]
     // errorCode.innerHTML = errorCode.innerHTML+'_'+window.innerWidth;
     init();
-    aquidauana && aquidauana('/guitarra.mp3', []);
   });
 
   document.readyState !== 'complete'
