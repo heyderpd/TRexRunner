@@ -100,6 +100,8 @@
     HY_DINO.prototype.TryJump = function(){
       if (!this.Out.tRex.jumping){
         this.pressKey('38', 100);
+        if (this.Mode === 'automatosaurus')
+          window.aquidauana.touch();
         return true;
       }
       return false;
