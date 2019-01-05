@@ -180,7 +180,7 @@
         () => {
           try {
             window.aquidauana.clear();
-            if (this.Mode === '')
+            if (this.Mode === 'automatosaurus')
               window.aquidauana('/guitarra.mp3', []);
           } catch (e) {}
         }
