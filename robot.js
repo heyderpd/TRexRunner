@@ -186,7 +186,7 @@
             }
           } catch (e) {}
         }
-      , 3000)
+      , 10 * 1000)
 
       this.Out.Canvas = document.getElementsByClassName('runner-canvas')[0];
       this.Out.Game = Runner.call();
