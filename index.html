@@ -3755,7 +3755,7 @@ HorizonLine.prototype = {
     }
     const size = HD.Flat ? 600 : 25
     HorizonLine.dimensions.WIDTH = size;
-    const floors = (this.canvas.width / size) + 1
+    const floors = Math.ceil((this.canvas.width / size) + 1)
     this.xPos = new Array(floors).fill(0).map((_, i) => i * size)
   },
 
