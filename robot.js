@@ -1,7 +1,28 @@
+var HD, Runner;
+
 (() => {
   var init = () => {
+    const flat = 'non-flat-earth'
+    const href = './fake.html?'
+    const getQueryParams = _ => window.location.search.replace('?', '').split('&')
+    const getMode = _ => getQueryParams().filter(q => q != flat)
+    const setHref = config => window.location.href = href + config.join('&')
+    const hasFlat = _ => window.location.search.indexOf(flat) >= 0
+    const ChangeGame = nextMode => {
+      const mode = [nextMode]
+      hasFlat() ? mode.push(flat) : null
+      setHref(mode)
+    }
+    const ChangeFlat = _ => {
+      const mode = getMode()
+      hasFlat() ? null : mode.push(flat)
+      setHref(mode)
+    }
+    window.ChangeGame = ChangeGame
+    window.ChangeFlat = ChangeFlat
+    
     var HY_DINO = function() {
-      this.Mode = getMode();
+      this.Mode = getMode().pop();
       this.Flat = hasFlat();
       this.IS_AUTOMATO = false;
       this.fakeKey = {
@@ -214,25 +235,4 @@
   document.readyState !== 'complete'
     ? document.addEventListener('DOMContentLoaded', load)
     : load();
-
-  const flat = 'non-flat-earth'
-  const href = './fake.html?'
-  const getQueryParams = _ => window.location.search.replace('?', '').split('&')
-  const getMode = _ => getQueryParams().filter(q => q != flat)
-  const setHref = config => window.location.href = href + config.join('&')
-  const hasFlat = _ => window.location.search.indexOf(flat) >= 0
-  const ChangeGame = nextMode => {
-    const mode = [nextMode]
-    hasFlat() ? mode.push(flat) : null
-    setHref(mode)
-  }
-  const ChangeFlat = _ => {
-    const mode = getMode()
-    hasFlat() ? null : mode.push(flat)
-    setHref(mode)
-  }
-  window.ChangeGame = ChangeGame
-  window.ChangeFlat = ChangeFlat
 })()
-
-var HD, Runner;
