@@ -2699,7 +2699,7 @@ Obstacle.prototype = {
       sourceX += sourceWidth * this.currentFrame;
     }
 
-    this.canvasCtx.drawImage(Runner.imageSprite,
+    this.canvasCtx.distortedDrawImage(Runner.imageSprite,
       sourceX, this.spritePos.y,
       sourceWidth * this.size, sourceHeight,
       this.xPos, this.yPos,
@@ -3793,7 +3793,7 @@ HorizonLine.prototype = {
    */
   draw: function() {
     this.xPos.map((_, i) => {
-      this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[i % 2],
+      this.canvasCtx.distortedDrawImage(Runner.imageSprite, this.sourceXPos[i % 2],
         this.spritePos.y,
         this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
         this.xPos[i], this.yPos,

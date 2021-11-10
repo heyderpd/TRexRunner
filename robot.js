@@ -244,10 +244,9 @@ var HD, Runner;
     
     HY_DINO.prototype.canvasInterceptor = function(canvas){
       const canvasCtx = canvas.getContext('2d')
-      canvasCtx.realDrawImage = canvasCtx.drawImage
-      canvasCtx.drawImage = function(image, sx, sy, sw, sh, dx, dy, dw, dh){
+      canvasCtx.distortedDrawImage = function(image, sx, sy, sw, sh, dx, dy, dw, dh){
         const [newX, newY] = HD.distort(dx, dy)
-        canvasCtx.realDrawImage(image, sx, sy, sw, sh, newX, newY, dw, dh)
+        canvasCtx.drawImage(image, sx, sy, sw, sh, newX, newY, dw, dh)
       }
       return canvasCtx
     }
