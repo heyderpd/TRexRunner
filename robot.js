@@ -234,8 +234,10 @@ var HD, Runner;
       let x = xPos
       let y = yPos
       if (this.Ready && !this.Flat) {
-        const relative = x / this.Out.Canvas.width
-        const modifier = (relative - Math.pow(relative, 2)) * 199
+        const width = this.Out.Canvas.clientWidth
+        const relative = x / width
+        const amplifier = 199 / (width <= 450 ? 3 : 1)
+        const modifier = (relative - Math.pow(relative, 2)) * amplifier
         const t = y - modifier
         y = t
       }
