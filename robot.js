@@ -23,7 +23,7 @@ var HD, Runner;
     
     var HY_DINO = function() {
       this.Mode = getMode().pop();
-      this.Flat = hasFlat();
+      this.Flat = !hasFlat();
       this.IS_AUTOMATO = false;
       this.fakeKey = {
         preventDefault : function(){},
