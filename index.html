@@ -3750,8 +3750,9 @@ HorizonLine.prototype = {
 
   /* HY_DINO */
   flatDimensions: function() {
-    if (!HD.Flat) {
+    if (!HD.Out.Canvas) {
       console.log('non flat earth!')
+      return
     }
     const size = HD.Flat ? 600 : 25
     HorizonLine.dimensions.WIDTH = size;
