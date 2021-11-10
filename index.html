@@ -3518,7 +3518,7 @@ Cloud.prototype = {
       sourceHeight = sourceHeight * 2;
     }
 
-    this.canvasCtx.drawImage(Runner.imageSprite, this.spritePos.x,
+    this.canvasCtx.distortedDrawImage(Runner.imageSprite, this.spritePos.x,
         this.spritePos.y,
         sourceWidth, sourceHeight,
         this.xPos, this.yPos,
