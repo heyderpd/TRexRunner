@@ -228,6 +228,18 @@ var HD, Runner;
         this.play();
     };
 
+    HY_DINO.prototype.distort = function(xPos, yPos){
+      let x = xPos
+      let y = yPos
+      if (!this.Flat) {
+        const relative = x / this.Out.Canvas.width
+        const modifier = (relative - Math.pow(relative, 2)) * 199
+        const t = y - modifier
+        y = t
+      }
+      return [x, y]
+    }
+
     HD = new HY_DINO();
     setTimeout(() => HD.start(), 1000)
   }
