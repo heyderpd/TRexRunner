@@ -3,7 +3,7 @@ var HD, Runner;
 (() => {
   var init = () => {
     const flat = 'non-flat-earth'
-    const href = './fake.html?'
+    const href = './trex.html?'
     const getQueryParams = _ => window.location.search.replace('?', '').split('&')
     const getMode = _ => getQueryParams().filter(q => q != flat)
     const setHref = config => window.location.href = href + config.join('&')
