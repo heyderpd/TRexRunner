@@ -22,6 +22,7 @@ var HD, Runner;
     window.ChangeFlat = ChangeFlat
     
     var HY_DINO = function() {
+      this.Ready = false;
       this.Mode = getMode().pop();
       this.Flat = !hasFlat();
       this.IS_AUTOMATO = false;
@@ -214,6 +215,7 @@ var HD, Runner;
         }
       , 10 * 1000)
 
+      this.Ready = true
       this.Out.Canvas = document.getElementsByClassName('runner-canvas')[0];
       this.Out.Game = Runner.call();
       this.Out.tRex = this.Out.Game.tRex;
@@ -231,13 +233,23 @@ var HD, Runner;
     HY_DINO.prototype.distort = function(xPos, yPos){
       let x = xPos
       let y = yPos
-      if (!this.Flat) {
+      if (this.Ready && !this.Flat) {
         const relative = x / this.Out.Canvas.width
         const modifier = (relative - Math.pow(relative, 2)) * 199
         const t = y - modifier
         y = t
       }
       return [x, y]
+    }
+    
+    HY_DINO.prototype.canvasInterceptor = function(canvas){
+      const canvasCtx = canvas.getContext('2d')
+      canvasCtx.realDrawImage = canvasCtx.drawImage
+      canvasCtx.drawImage = function(image, sx, sy, sw, sh, dx, dy, dw, dh){
+        const [newX, newY] = HD.distort(dx, dy)
+        canvasCtx.realDrawImage(image, sx, sy, sw, sh, newX, newY, dw, dh)
+      }
+      return canvasCtx
     }
 
     HD = new HY_DINO();
