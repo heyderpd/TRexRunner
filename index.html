@@ -3777,7 +3777,7 @@ HorizonLine.prototype = {
       this.dimensions[dimension] = HorizonLine.dimensions[dimension];
     }
 
-    this.xPos = [0, HorizonLine.dimensions.WIDTH];
+    this.flatDimensions()
     this.yPos = HorizonLine.dimensions.YPOS;
   },
 
@@ -3792,17 +3792,13 @@ HorizonLine.prototype = {
    * Draw the horizon line.
    */
   draw: function() {
-    this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[0],
+    this.xPos.map((_, i) => {
+      this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[i % 2],
         this.spritePos.y,
         this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
-        this.xPos[0], this.yPos,
-        this.dimensions.WIDTH, this.dimensions.HEIGHT);
-
-    this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[1],
-        this.spritePos.y,
-        this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
-        this.xPos[1], this.yPos,
-        this.dimensions.WIDTH, this.dimensions.HEIGHT);
+        this.xPos[i], this.yPos,
+        this.dimensions.WIDTH, this.dimensions.HEIGHT)
+    })
   },
 
   /**
@@ -3811,17 +3807,13 @@ HorizonLine.prototype = {
    * @param {number} increment
    */
   updateXPos: function(pos, increment) {
-    var line1 = pos;
-    var line2 = pos == 0 ? 1 : 0;
-
-    this.xPos[line1] -= increment;
-    this.xPos[line2] = this.xPos[line1] + this.dimensions.WIDTH;
-
-    if (this.xPos[line1] <= -this.dimensions.WIDTH) {
-      this.xPos[line1] += this.dimensions.WIDTH * 2;
-      this.xPos[line2] = this.xPos[line1] - this.dimensions.WIDTH;
-      this.sourceXPos[line1] = this.getRandomType() + this.spritePos.x;
+    const position = this.xPos[pos]
+    if (position < -this.dimensions.WIDTH) {
+      this.xPos[pos] = this.canvas.width
+    } else {
+      this.xPos[pos] -= increment
     }
+    return
   },
 
   /**
@@ -3831,12 +3823,7 @@ HorizonLine.prototype = {
    */
   update: function(deltaTime, speed) {
     var increment = Math.floor(speed * (FPS / 1000) * deltaTime);
-
-    if (this.xPos[0] <= 0) {
-      this.updateXPos(0, increment);
-    } else {
-      this.updateXPos(1, increment);
-    }
+    this.xPos.map((_, i) => this.updateXPos(i, increment))
     this.draw();
   },
 
@@ -3844,8 +3831,7 @@ HorizonLine.prototype = {
    * Reset horizon to the starting position.
    */
   reset: function() {
-    this.xPos[0] = 0;
-    this.xPos[1] = HorizonLine.dimensions.WIDTH;
+    this.flatDimensions()
   }
 };
 
@@ -3862,7 +3848,8 @@ HorizonLine.prototype = {
  */
 function Horizon(canvas, spritePos, dimensions, gapCoefficient) {
   this.canvas = canvas;
-  this.canvasCtx = this.canvas.getContext('2d');
+  // this.canvasCtx = this.canvas.getContext('2d');
+  this.canvasCtx = HD.canvasInterceptor(canvas)
   this.config = Horizon.config;
   this.dimensions = dimensions;
   this.gapCoefficient = gapCoefficient;
