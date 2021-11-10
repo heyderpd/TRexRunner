@@ -162,6 +162,12 @@ var HD, Runner;
           this.Out.Game.config['ACCELERATION'] = 0.0035;
           this.Out.Game.config['MAX_SPEED'] = window.innerWidth > 555 ? 18 : 10;
           var Func = this.AUTO.bind(this);
+          break;
+        
+        default:
+          if (this.Flat) {
+            this.Out.Game.config['MAX_SPEED'] = 1
+          }
       }
 
       this.IS_AUTOMATO = true;
