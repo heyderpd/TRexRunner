@@ -1,7 +1,8 @@
 (() => {
   var init = () => {
     var HY_DINO = function() {
-      this.Mode = this.getQuery();
+      this.Mode = getMode();
+      this.Flat = hasFlat();
       this.IS_AUTOMATO = false;
       this.fakeKey = {
         preventDefault : function(){},
@@ -118,11 +119,6 @@
       return false;
     };
 
-    HY_DINO.prototype.getQuery = function(){
-      var query = window.location.href.split('?');
-      return query.length == 2 ? query[1] : '';
-    };
-
     HY_DINO.prototype.setGameMode = function(){
       switch(this.Mode) {
         case 'velociraptor':
@@ -218,10 +214,25 @@
   document.readyState !== 'complete'
     ? document.addEventListener('DOMContentLoaded', load)
     : load();
-})()
 
-function ChangeGame(Mode = ''){
-  window.location.href ='./trex.html?'+Mode;
-};
+  const flat = 'non-flat-earth'
+  const href = './fake.html?'
+  const getQueryParams = _ => window.location.search.replace('?', '').split('&')
+  const getMode = _ => getQueryParams().filter(q => q != flat)
+  const setHref = config => window.location.href = href + config.join('&')
+  const hasFlat = _ => window.location.search.indexOf(flat) >= 0
+  const ChangeGame = nextMode => {
+    const mode = [nextMode]
+    hasFlat() ? mode.push(flat) : null
+    setHref(mode)
+  }
+  const ChangeFlat = _ => {
+    const mode = getMode()
+    hasFlat() ? null : mode.push(flat)
+    setHref(mode)
+  }
+  window.ChangeGame = ChangeGame
+  window.ChangeFlat = ChangeFlat
+})()
 
 var HD, Runner;
