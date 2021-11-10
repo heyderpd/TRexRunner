@@ -2699,12 +2699,10 @@ Obstacle.prototype = {
       sourceX += sourceWidth * this.currentFrame;
     }
 
-    const [x, y] = HD.distort(this.xPos, this.yPos)
-
     this.canvasCtx.drawImage(Runner.imageSprite,
       sourceX, this.spritePos.y,
       sourceWidth * this.size, sourceHeight,
-      x, y,
+      this.xPos, this.yPos,
       this.typeConfig.width * this.size, this.typeConfig.height);
   },
 
