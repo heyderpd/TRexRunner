@@ -1753,6 +1753,7 @@ Runner.prototype = {
    */
   debounceResize: function() {
     if (!this.resizeTimerId_) {
+      this.horizon.horizonLine.reset()
       this.resizeTimerId_ =
           setInterval(this.adjustDimensions.bind(this), 250);
     }
@@ -3742,11 +3743,21 @@ function HorizonLine(canvas, spritePos) {
 HorizonLine.dimensions = {
   WIDTH: 600,
   HEIGHT: 12,
-  YPOS: 127
+  YPOS: 127,
+  READY: false,
 };
 
 
 HorizonLine.prototype = {
+
+  /* HY_DINO */
+  retry: function() {
+    if (HorizonLine.dimensions.READY) {
+      return
+    }
+    console.log('HorizonLine retry')
+    this.flatDimensions()
+  },
 
   /* HY_DINO */
   flatDimensions: function() {
@@ -3754,9 +3765,10 @@ HorizonLine.prototype = {
       console.log('non flat earth!')
       return
     }
+    HorizonLine.dimensions.READY = true
     const size = HD.Flat ? 600 : 25
-    HorizonLine.dimensions.WIDTH = size;
-    const floors = Math.ceil((HD.Out.Canvas.clientWidth / size) + 1)
+    HorizonLine.dimensions.WIDTH = size
+    const floors = Math.ceil((HD.Out.Canvas.width / size) + 1)
     this.xPos = new Array(floors).fill(0).map((_, i) => i * size)
   },
 
@@ -3823,6 +3835,7 @@ HorizonLine.prototype = {
    * @param {number} speed
    */
   update: function(deltaTime, speed) {
+    this.retry();
     var increment = Math.floor(speed * (FPS / 1000) * deltaTime);
     this.xPos.map((_, i) => this.updateXPos(i, increment))
     this.draw();
