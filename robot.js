@@ -3,7 +3,7 @@ var HD, Runner;
 (() => {
   var init = () => {
     const flat = 'non-flat-earth'
-    const href = './trex.html?'
+    const href = './?'
     const getQueryParams = _ => window.location.search.replace('?', '').split('&')
     const getMode = _ => getQueryParams().filter(q => q != flat)
     const setHref = config => window.location.href = href + config.join('&')
@@ -22,8 +22,9 @@ var HD, Runner;
     window.ChangeFlat = ChangeFlat
     
     var HY_DINO = function() {
+      const config = getMode();
       this.Ready = false;
-      this.Mode = getMode().pop();
+      this.Mode = config && config.length ? config.pop() : '';
       this.Flat = !hasFlat();
       this.IS_AUTOMATO = false;
       this.fakeKey = {
