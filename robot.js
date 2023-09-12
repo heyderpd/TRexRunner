@@ -3,11 +3,13 @@ var HD, Runner;
 (() => {
   var init = () => {
     const flat = 'non-flat-earth'
+    const aqui = 'aquidauana'
     const href = './?'
     const getQueryParams = _ => window.location.search.replace('?', '').split('&')
-    const getMode = _ => getQueryParams().filter(q => q != flat)
+    const getMode = _ => getQueryParams().filter(q => [flat, aqui].indexOf(q) < 0)
     const setHref = config => window.location.href = href + config.join('&')
     const hasFlat = _ => window.location.search.indexOf(flat) >= 0
+    const hasAqui = _ => window.location.search.indexOf(aqui) >= 0
     const ChangeGame = nextMode => {
       const mode = [nextMode]
       hasFlat() ? mode.push(flat) : null
@@ -20,10 +22,11 @@ var HD, Runner;
     }
     window.ChangeGame = ChangeGame
     window.ChangeFlat = ChangeFlat
-    
+
     var HY_DINO = function() {
       const config = getMode();
       this.Ready = false;
+      this.Aqui = hasAqui();
       this.Mode = config && config.length ? config.pop() : '';
       this.Flat = !hasFlat();
       this.IS_AUTOMATO = false;
@@ -126,7 +129,9 @@ var HD, Runner;
         this.pressKey('38', 100);
         if (this.Mode === 'automatosaurus') {
           try {
-            window.aquidauana.touch();
+            if (this.Aqui) {
+              window.aquidauana.touch();
+            }
           } catch (e) {}
         }
         return true;
@@ -165,7 +170,7 @@ var HD, Runner;
           this.Out.Game.config['MAX_SPEED'] = window.innerWidth > 555 ? 18 : 10;
           var Func = this.AUTO.bind(this);
           break;
-        
+
         default:
           if (this.Flat) {
             this.Out.Game.config['MAX_SPEED'] = 1
@@ -208,7 +213,7 @@ var HD, Runner;
         () => {
           try {
             window.aquidauana.clear();
-            if (this.Mode === 'automatosaurus') {
+            if (this.Aqui) {
               window.aquidauana('/guitarra.mp3', []);
               console.log('sing aquidauana')
             }
@@ -244,7 +249,7 @@ var HD, Runner;
       }
       return [x, y]
     }
-    
+
     HY_DINO.prototype.canvasInterceptor = function(canvas){
       const canvasCtx = canvas.getContext('2d')
       canvasCtx.distortedDrawImage = function(image, sx, sy, sw, sh, dx, dy, dw, dh){
@@ -259,8 +264,6 @@ var HD, Runner;
   }
 
   var load = () => setTimeout(() => {
-    // var errorCode = document.getElementsByClassName('error-code')[0]
-    // errorCode.innerHTML = errorCode.innerHTML+'_'+window.innerWidth;
     init();
   });
 
