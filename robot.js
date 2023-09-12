@@ -263,9 +263,16 @@ var HD, Runner;
     setTimeout(() => HD.start(), 1000)
   }
 
-  var load = () => setTimeout(() => {
-    init();
-  });
+  var interval = null
+  var load = () => {
+    interval = setInterval(() => {
+      if (Runner == undefined) {
+        return
+      }
+      clearInterval(interval)
+      init();
+    }, 300);
+  }
 
   document.readyState !== 'complete'
     ? document.addEventListener('DOMContentLoaded', load)
