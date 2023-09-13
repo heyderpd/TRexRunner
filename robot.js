@@ -260,6 +260,7 @@ var HD, Runner;
     }
 
     HD = new HY_DINO();
+    new Runner('.interstitial-wrapper');
     setTimeout(() => HD.start(), 1000)
   }
 
@@ -271,10 +272,9 @@ var HD, Runner;
       }
       clearInterval(interval)
       init();
-    }, 300);
+    }, 150);
   }
 
-  document.readyState !== 'complete'
-    ? document.addEventListener('DOMContentLoaded', load)
-    : load();
+  load();
 })()
+console.log('Robot Loaded!')
