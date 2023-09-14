@@ -97,8 +97,10 @@ var HD, Runner;
                 Item.processed = true;*/
           var dif = Item.width <= 25 ? 0 : 10;
           if (Item.xPos +dif <= this.Pos.Jump) // low hit (pitero hit in y=75px)
-            if (this.TryJump())
+            if (this.TryJump()) {
               Item.processed = true;
+              this.DuckOnJump()
+            }
         }
         return Item.processed === true;
       }
@@ -124,9 +126,29 @@ var HD, Runner;
       }.bind(this), Time);
     };
 
+    HY_DINO.prototype.GetTimeout = function(){
+      const max = 400
+      const min = 200
+      const speed = this.Out.Game.currentSpeed
+      if (speed < 8)
+        return
+      const ref = min + (max * (1 / speed))
+      const timeout = ref < min ? min : ref
+      return timeout
+    }
+
+    HY_DINO.prototype.DuckOnJump = function(){
+      const timeout = this.GetTimeout()
+      if (!timeout)
+        return
+      setTimeout(_ => {
+        this.pressKey('40');
+      }, timeout)
+    }
+
     HY_DINO.prototype.TryJump = function(){
       if (!this.Out.tRex.jumping){
-        this.pressKey('38', 100);
+        this.pressKey('38', 125);
         if (this.Mode === 'automatosaurus') {
           try {
             if (this.Aqui) {
@@ -153,11 +175,11 @@ var HD, Runner;
           this.Out.Game.horizon.config['CLOUD_FREQUENCY'] = 1;
           this.Out.Game.horizon.config['BG_CLOUD_SPEED'] = 1;
           this.Out.Game.horizon.config['MAX_CLOUDS'] = 10;
-          this.Out.Game.setSpeed( this.Out.Game.config['MAX_SPEED'] = this.Out.Game.config['SPEED'] = 100);
+          this.Out.Game.setSpeed(this.Out.Game.config['MAX_SPEED'] = this.Out.Game.config['SPEED'] = 100);
           var Func = this.RUN.bind(this);
           break;
 
-        case 'automatosaurus':
+          case 'automatosaurus':
           this.Out.Game.config['CLOUD_FREQUENCY'] = 0.7;
           this.Out.Game.config['GRAVITY'] = 0.7;
           this.Out.Game.config['INITIAL_JUMP_VELOCITY'] = 13;
